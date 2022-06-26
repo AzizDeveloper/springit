@@ -1,9 +1,8 @@
 package com.aziz.redditclone.domain;
 
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,7 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Data
+@RequiredArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
 public class Link extends Auditable {
 
@@ -26,8 +27,10 @@ public class Link extends Auditable {
     private String url;
 
     //comments
-
     @OneToMany(mappedBy = "link")
     private List<Comment> comments = new ArrayList<>();
-}
 
+    public void addComment(Comment comment) {
+        comments.add(comment);
+    }
+}
