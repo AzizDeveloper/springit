@@ -28,9 +28,25 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/actuator/").hasRole("ADMIN")
                 .antMatchers("/").permitAll()
                 .antMatchers("/link/submit").hasRole("USER")
+                .antMatchers("/h2-console/**").permitAll()
             .and()
-            .formLogin();
+            .formLogin()
+            .and()
+            .csrf().disable()
+            .headers().frameOptions().disable();
     }
+//                .requestMatchers(EndpointRequest.to("info")).permitAll()
+//                .requestMatchers(EndpointRequest.toAnyEndpoint()).hasRole("ACTUATOR")
+//                .antMatchers("/actuator/").hasRole("ACTUATOR")
+//                .antMatchers("/link/submit").hasRole("USER")
+//                .antMatchers("/link/**").permitAll()
+//                .antMatchers("/").permitAll()
+//                .antMatchers("/h2-console/**").permitAll()
+//                .and()
+//                .formLogin()
+//                .and()
+//                .csrf().disable()
+//                .headers().frameOptions().disable();
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
