@@ -2,8 +2,7 @@ package com.aziz.redditclone.controller;
 
 import com.aziz.redditclone.domain.Comment;
 import com.aziz.redditclone.domain.Link;
-import com.aziz.redditclone.repository.CommentRepository;
-import com.aziz.redditclone.repository.LinkRepository;
+import com.aziz.redditclone.service.CommentService;
 import com.aziz.redditclone.service.LinkService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,11 +24,11 @@ public class LinkController {
     private static final Logger logger = LoggerFactory.getLogger(LinkController.class);
 
     private LinkService linkService;
-    private CommentRepository commentRepository;
+    private CommentService commentService;
 
-    public LinkController(LinkService linkService, CommentRepository commentRepository) {
+    public LinkController(LinkService linkService, CommentService commentService) {
         this.linkService = linkService;
-        this.commentRepository = commentRepository;
+        this.commentService = commentService;
     }
 
     @GetMapping
@@ -83,7 +82,7 @@ public class LinkController {
         if (bindingResult.hasErrors()) {
             logger.info("There was a problem adding a new comment.");
         } else {
-            commentRepository.save(comment);
+            commentService.save(comment);
             logger.info("New comment was saved successfully.");
         }
         return "redirect:/link/" + comment.getLink().getId();
