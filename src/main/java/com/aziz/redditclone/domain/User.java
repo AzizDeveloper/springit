@@ -1,11 +1,13 @@
 package com.aziz.redditclone.domain;
 
+import com.aziz.redditclone.domain.validator.PasswordsMatch;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.*;
@@ -16,6 +18,7 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @NoArgsConstructor
+@PasswordsMatch
 @Table(name = "users")
 public class User implements UserDetails {
 
@@ -61,6 +64,10 @@ public class User implements UserDetails {
     @NotNull
     @Column(nullable = false, unique = true)
     private String alias;
+
+    @Transient
+    @NotEmpty(message = "Please enter Password Confirmation")
+    private String confirmPassword;
 
     public String getFullName(){
         return firstName + " " + lastName;
